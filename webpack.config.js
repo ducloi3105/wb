@@ -1,53 +1,28 @@
 // const path = require('path');
-var webpack = require('webpack');
-var WebpackBundleSizeAnalyzerPlugin = require('webpack-bundle-size-analyzer').WebpackBundleSizeAnalyzerPlugin;
-var BabiliPlugin = require("babel-minify");
-var fs = require('fs');
-var ProgressBarPlugin = require('progress-bar-webpack-plugin');
-var chalk = require('chalk');
-
-// var MODULES = [
-//     'instantarticle',
-//     'news',
-//     'login',
-//     'dashboard',
-//     'editnews',
-//     'account',
-//     'video',
-//     'tagmanager',
-//     'zonemanager',
-//     'liveediting',
-//     'threadmanager',
-//     'authormanager',
-//     'topicmanager',
-//     'livesportmanager',
-//     'vote',
-//     'previewnews',
-//     'discussion',
-//     'newssourcemanager',
-//     'statistic',
-//     'boxvideoembed'
-//     //'test'
-// ];
-
-var BLACKLIST = [
+let webpack = require('webpack');
+let WebpackBundleSizeAnalyzerPlugin = require('webpack-bundle-size-analyzer').WebpackBundleSizeAnalyzerPlugin;
+let BabiliPlugin = require("babel-minify");
+let fs = require('fs');
+let ProgressBarPlugin = require('progress-bar-webpack-plugin');
+let chalk = require('chalk');
+let BLACKLIST = [
     'test',
     'common'
 ];
-var moduleName='modules_es6'
+let moduleName='modules_es6'
 module.exports = (env) => {
     return {
 
         entry: (function() {
-            var files = fs.readdirSync('./' + moduleName);
-            var folders = [];
+            let files = fs.readdirSync('./' + moduleName);
+            let folders = [];
             files.forEach(function (file) {
                 if (fs.existsSync('./' + moduleName + '/' + file + '/app.jsx') && !~BLACKLIST.indexOf(file)) {
                     folders.push(file);
                 }
             });
 
-            var obj = {};
+            let obj = {};
             folders.forEach(function (item) {
                 obj[item] = __dirname + '/' + moduleName + '/' + item + '/app.jsx';
             });
@@ -112,9 +87,9 @@ module.exports = (env) => {
             poll: 300
         },
         plugins: (function() {
-            var plugins = [
+            let plugins = [
                 new ProgressBarPlugin((function() {
-                    var buildNo = 0;
+                    let buildNo = 0;
                     return {
                         format: `  ${chalk.green.bold('building :percent')}`,
                         callback: function() {
@@ -122,7 +97,7 @@ module.exports = (env) => {
                         },
                         summary: false,
                         customSummary: function(buildTime) {
-                            var stream = process.stderr;
+                            let stream = process.stderr;
                             setTimeout(function() {
                                 stream.write(chalk.green.bold('Build ' + chalk.cyan.bold(buildNo) + ' completed' + '\n\n'));
                             }, 0);
